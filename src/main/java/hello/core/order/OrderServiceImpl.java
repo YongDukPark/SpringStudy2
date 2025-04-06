@@ -9,9 +9,15 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
-    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+
+    //DIP를 지키기 위해 주입을 해준다.
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     //SRP 단일책임 원칙을 지키기 위해 할인 관련된 내용은 Order에서 진행하지 않고 다른곳에서 진행을 한다.
     @Override
