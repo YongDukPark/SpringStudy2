@@ -1,5 +1,7 @@
 package hello.core.lifecycle;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -45,11 +47,13 @@ public class NetworkClient {
 //    }
 
     // 의존관계 주입이 끝나면 실행하는 method
+    @PostConstruct
     public void init() {
         connect();
         call("초기화 연결 메시지");
     }
 
+    @PreDestroy
     // 이 빈이 종료될때 실행하는 method
     public void close() {
         disconnect();
