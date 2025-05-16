@@ -2,6 +2,7 @@ package scope;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.inject.Provider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectProvider;
@@ -36,7 +37,7 @@ public class SingletonWithPrototypeTest1 {
         int count2 = clientBean2.login();
         // 스코프 프로토타입임에도 불구하고 이와같이 2로 기재가 된다.
         // 이는 의도와 다른 결과를 도출시킨다.
-        Assertions.assertThat(count2).isEqualTo(2);
+        Assertions.assertThat(count2).isEqualTo(1);
     }
 
     // singleton은 default이기에 하지 않아도 되지만 확실하게 예제를 보이기위해 기입
@@ -49,7 +50,7 @@ public class SingletonWithPrototypeTest1 {
         // 예전에는 ObjectFactory를 사용하긴 했으나 같다.
         // 추가적으로 기능을 제공하는게 ObjectProvider이다.
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
 //        @Autowired
 //        public ClientBean(PrototypeBean prototypeBean) {
@@ -60,7 +61,7 @@ public class SingletonWithPrototypeTest1 {
             // getObject 를 사용 시점에서 스프링 컨테이너에서 프로토타입빈을 찾아서 반환을 해준다.
             // 이와같이 할경우 필요할때마다 찾아오기에 이전 요청 method에서 컨테이너 주입 하는 방식과 같은 결과를 낼수있다.
             // 그러나 스프링에게 보다 덜 의존적이다.
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
