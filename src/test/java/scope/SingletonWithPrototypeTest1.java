@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -41,14 +42,25 @@ public class SingletonWithPrototypeTest1 {
     // singleton은 default이기에 하지 않아도 되지만 확실하게 예제를 보이기위해 기입
     @Scope("singleton")
     static class ClientBean{
-        private final PrototypeBean prototypeBean; //생성시점에 주입
+//        private final PrototypeBean prototypeBean; //생성시점에 주입
 
+        // 필드 주입은 비추천한다 가능한 생성자 주입으로 진행
+        // 현재는 테스트이기에 필드주입으로 진행한다.
+        // 예전에는 ObjectFactory를 사용하긴 했으나 같다.
+        // 추가적으로 기능을 제공하는게 ObjectProvider이다.
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+
+//        @Autowired
+//        public ClientBean(PrototypeBean prototypeBean) {
+//            this.prototypeBean = prototypeBean;
+//        }
 
         public int login() {
+            // getObject 를 사용 시점에서 스프링 컨테이너에서 프로토타입빈을 찾아서 반환을 해준다.
+            // 이와같이 할경우 필요할때마다 찾아오기에 이전 요청 method에서 컨테이너 주입 하는 방식과 같은 결과를 낼수있다.
+            // 그러나 스프링에게 보다 덜 의존적이다.
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
