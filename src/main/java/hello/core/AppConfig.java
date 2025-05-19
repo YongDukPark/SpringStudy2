@@ -19,22 +19,22 @@ public class AppConfig {
     //스프링 컨테이너에 등록하기 위한 어노테이션
     //아래와 같이 이름을 명시적으로 지정할수 있다.
 //    @Bean(name = "memberservicetest")
-    @Bean
-    public MemberService memberService(){
-        return new MemberServiceImpl(memberRepository());
-    }
-    @Bean
-    public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    }
-    @Bean
-    public OrderService orderService(){
-        return new OrderServiceImpl(memberRepository(), discountPolicy());
-    }
-    @Bean
-    public DiscountPolicy discountPolicy() {
-        //return new FixDiscountPolicy();
-        //실행 비즈니스 로직 변경
-        return new RateDiscountPolicy();
-    }
+//    @Bean
+//    public MemberService memberService(){
+//        return new MemberServiceImpl(memberRepository());
+//    }
+//    @Bean
+//    public MemberRepository memberRepository() {
+//        return new MemoryMemberRepository();
+//    }
+//    @Bean
+//    public OrderService orderService(){
+//        return new OrderServiceImpl(memberRepository(), discountPolicy());
+//    }
+//    @Bean
+//    public DiscountPolicy discountPolicy() {
+//        //return new FixDiscountPolicy();
+//        //실행 비즈니스 로직 변경
+//        return new RateDiscountPolicy();
+//    }
 }

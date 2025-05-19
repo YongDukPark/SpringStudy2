@@ -29,16 +29,24 @@ configurations {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	//lombok 라이브러리 추가 시작
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 	testCompileOnly 'org.projectlombok:lombok:1.18.24'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+	//lombok 라이브러리 추가 끝
+
+	// 자바 기반 프로토타입 스코프
+	implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+
+	// 웹스코프 영역
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 tasks.named('test') {
