@@ -13,14 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-memo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) {
-
-        //주입받은 오브젝트 호출
-        MyLogger myLogger = myLoggerProvider.getObject();
 
         //고객의 요청 URL 가져오기
         String requestURL = request.getRequestURL().toString();
